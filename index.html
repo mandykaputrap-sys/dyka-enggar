@@ -86,9 +86,12 @@
 <body>
 <h2>Scan Barang</h2>
 
-<div id="reader" style="width:300px"></div>
-<p>Hasil Scan: <span id="result">-</span></p>
+<button onclick="startScan()" style="padding:10px 20px;border:none;background:#4f46e5;color:white;border-radius:6px">
+Mulai Scan Barcode
+</button>
 
+<div id="reader" style="width:300px;margin-top:10px"></div>
+<p>Hasil Scan: <span id="result">-</span></p>
 <ul id="cart"></ul>
     <div class="container">
         <h1>Kalkulator Belanja</h1>
@@ -239,6 +242,29 @@ html5QrCode.start(
   onScanSuccess
 );
     </script>
-    </script>
+</script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+<script>
+let html5QrCode;
+
+const database = {
+  "8992775210100": { nama: "Indomie Goreng", harga: 3500 },
+  "8996001600247": { nama: "Aqua Botol", harga: 3000 },
+  "8998866100125": { nama: "Teh Kotak", harga: 5000 }
+};
+
+function startScan(){
+  html5QrCode = new Html5Qrcode("reader");
+  html5QrCode.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: 250 },
+    function(decodedText){
+      document.getElementById("result").innerText = decodedText;
+      alert("Barcode terbaca: " + decodedText);
+    }
+  );
+}
+</script>
 </body>
 </html>
