@@ -84,7 +84,12 @@
     </style>
 </head>
 <body>
+<h2>Scan Barang</h2>
 
+<div id="reader" style="width:300px"></div>
+<p>Hasil Scan: <span id="result">-</span></p>
+
+<ul id="cart"></ul>
     <div class="container">
         <h1>Kalkulator Belanja</h1>
 
@@ -206,6 +211,34 @@
 
         // Jalankan fungsi render saat halaman dimuat
         document.addEventListener('DOMContentLoaded', renderDaftarBelanja);
+        <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+const database = {
+  "8992775210100": { nama: "Indomie Goreng", harga: 3500 },
+  "8996001600247": { nama: "Aqua Botol", harga: 3000 },
+  "8998866100125": { nama: "Teh Kotak", harga: 5000 }
+};
+
+function onScanSuccess(decodedText) {
+  document.getElementById("result").innerText = decodedText;
+
+  if (database[decodedText]) {
+    const item = database[decodedText];
+    const li = document.createElement("li");
+    li.innerText = item.nama + " - Rp " + item.harga;
+    document.getElementById("cart").appendChild(li);
+  } else {
+    alert("Produk belum terdaftar!");
+  }
+}
+
+const html5QrCode = new Html5Qrcode("reader");
+html5QrCode.start(
+  { facingMode: "environment" },
+  { fps: 10, qrbox: 250 },
+  onScanSuccess
+);
+    </script>
     </script>
 </body>
 </html>
